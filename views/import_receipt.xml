@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <record id="import_receipt_id" model="ir.ui.view">
+            <field name="name">import_receipt_form</field>
+            <field name="model">mdm.import.receipt</field>
+            <field name="arch" type="xml">
+                <form string="Import_receipt">
+                    <sheet>
+                        <group>
+                            <field name="import_invoice_id"/>
+                            <field name="time"/>
+                            <field name="money"/>
+                            <field name="note"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="import_receipts_id" model="ir.ui.view">
+            <field name="name">import_receipt_tree</field>
+            <field name="model">mdm.import.receipt</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom" string="Import_receipts">
+                    <field name="import_invoice_id" readonly="True"/>
+                    <field name="time" invisible="1"/>
+                    <field name="money"/>
+                    <field name="note"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="import_receipts_action" model="ir.actions.act_window">
+            <field name="name">Import_receipts.action</field>
+            <field name="res_model">mdm.import.receipt</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+    </data>
+</odoo>

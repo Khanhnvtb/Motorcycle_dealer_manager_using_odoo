@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <record id="expense_id" model="ir.ui.view">
+            <field name="name">expense_form</field>
+            <field name="model">mdm.expense</field>
+            <field name="arch" type="xml">
+                <form string="Expense">
+                    <sheet>
+                        <group>
+                            <group>
+                                <group>
+                                    <field name="money"/>
+                                </group>
+                                <group>
+                                    <field name="type"/>
+                                </group>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="note"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="expenses_id" model="ir.ui.view">
+            <field name="name">expense_tree</field>
+            <field name="model">mdm.expense</field>
+            <field name="arch" type="xml">
+                <tree string="Expenses">
+                    <field name="user_id" string="User" widget="selection"
+                           options="{'model': 'mdm.user', 'string': 'Name', 'on_change': 'on_change_user_id()'}"/>
+                    <field name="money"/>
+                    <field name="type"/>
+                    <field name="note"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="expenses_action" model="ir.actions.act_window">
+            <field name="name">Expenses.action</field>
+            <field name="res_model">mdm.expense</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="expenses_menu_id" name="expenses_menu" parent="motorcycle_dealer_manager_menu" action="expenses_action"/>
+
+    </data>
+</odoo>

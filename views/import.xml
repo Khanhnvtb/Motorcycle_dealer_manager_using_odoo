@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <record id="import_invoice_new_id" model="ir.ui.view">
+            <field name="name">import_invoice_form</field>
+            <field name="model">mdm.import.invoice</field>
+            <field name="arch" type="xml">
+                <form string="Import invoice">
+                    <button name="add_import_receipt" type="object" string="Import receipts" class="btn-primary"/>
+                    <group>
+                        <group>
+                            <field name="supplier_id" type="many2one" relation="mdm.supplier" string="Supplier"
+                                   required="True">
+                            </field>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Import motor" name="import_motor">
+                            <field name="import_invoice_ids">
+                                <tree editable="bottom" string="Import">
+                                    <field name="motor_id"/>
+                                    <field name="quantity"/>
+                                    <field name="sum_import_price" sum="total" readonly="True"/>
+                                </tree>
+                                <form string="import form">
+                                    <group>
+                                        <field name="motor_id"/>
+                                        <field name="quantity"/>
+                                        <field name="sum_import_price"/>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+                    </notebook>
+                    <group>
+                        <field name="total" invisible="1"/>
+                        <group>
+                            <group>
+                                <field name="debt_term"/>
+                            </group>
+                            <group>
+                                <field name="payment"/>
+                            </group>
+                        </group>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="import_invoices_id" model="ir.ui.view">
+            <field name="name">import_invoices_tree</field>
+            <field name="model">mdm.import.invoice</field>
+            <field name="arch" type="xml">
+                <tree string="Import invoices">
+                    <field name="time"/>
+                    <field name="total"/>
+                    <field name="payment"/>
+                    <field name="debt_term"/>
+                    <field name="user_id" string="User" widget="selection"
+                           options="{'model': 'mdm.user', 'string': 'Name', 'on_change': 'on_change_user_id()'}"/>
+                    <field name="supplier_id" string="Supplier" widget="selection"
+                           options="{'model': 'mdm.supplier', 'string': 'Name', 'on_change': 'on_change_supplier_id()'}"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="import_invoices_action" model="ir.actions.act_window">
+            <field name="name">Import_invoices.action</field>
+            <field name="res_model">mdm.import.invoice</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="import_invoices_menu_id" name="import_invoices_menu" parent="motorcycle_dealer_manager_menu"
+                  action="import_invoices_action"/>
+    </data>
+</odoo>

@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <record id="mdm_supplier_form_1" model="ir.ui.view">
+            <field name="name">supplier.mdm.form</field>
+            <field name="model">mdm.supplier</field>
+            <field name="arch" type="xml">
+                <form string="Supplier5">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                                <field name="phone"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="address"/>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="email"/>
+                            </group>
+                            <group>
+                                <group>
+                                    <field name="transport_price"/>
+                                </group>
+                                <group>
+                                    <field name="delivery_day"/>
+                                </group>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="mdm_supplier_tree_1" model="ir.ui.view">
+            <field name="name">supplier.mdm.tree</field>
+            <field name="model">mdm.supplier</field>
+            <field name="arch" type="xml">
+                <tree string="Supplier5">
+                    <field name="name"/>
+                    <field name="address"/>
+                    <field name="phone"/>
+                    <field name="email"/>
+                    <field name="transport_price"/>
+                    <field name="delivery_day"/>
+                    <field name="rating"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="supplier_action" model="ir.actions.act_window">
+            <field name="name">Suppliers.action</field>
+            <field name="res_model">mdm.supplier</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="suppliers_menu" name="Suppliers" parent="motorcycle_dealer_manager_menu"
+                  action="supplier_action"/>
+
+    </data>
+</odoo>

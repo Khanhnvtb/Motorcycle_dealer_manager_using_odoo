@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <record id="motor_id" model="ir.ui.view">
+            <field name="name">motor_form</field>
+            <field name="model">mdm.motor</field>
+            <field name="arch" type="xml">
+                <form string="Motor">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                                <group>
+                                    <field name="quantity"/>
+                                </group>
+                            </group>
+                            <group>
+                                <field name="brand"/>
+                            </group>
+                            <group>
+                                <group>
+                                    <field name="import_price"/>
+                                </group>
+                            </group>
+                            <group>
+                                <field name="description"/>
+                            </group>
+                            <group>
+                                <group>
+                                    <field name="export_price"/>
+                                </group>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="motors_id" model="ir.ui.view">
+            <field name="name">motor_tree</field>
+            <field name="model">mdm.motor</field>
+            <field name="arch" type="xml">
+                <tree string="Motors">
+                    <field name="name"/>
+                    <field name="brand"/>
+                    <field name="description"/>
+                    <field name="quantity"/>
+                    <field name="import_price"/>
+                    <field name="export_price"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="motors_action" model="ir.actions.act_window">
+            <field name="name">Motors.action</field>
+            <field name="res_model">mdm.motor</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="motors_menu_id" name="motors_menu" parent="motorcycle_dealer_manager_menu" action="motors_action"/>
+
+    </data>
+</odoo>

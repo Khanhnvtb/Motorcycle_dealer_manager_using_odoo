@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="motorcycle_dealer_manager_menu" name="Motorcycle Dealer Manager" sequence="10"/>
+</odoo>

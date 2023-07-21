@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <record id="mdm_store_form_1" model="ir.ui.view">
+            <field name="name">store.mdm.form</field>
+            <field name="model">mdm.store</field>
+            <field name="arch" type="xml">
+                <form string="Store5">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                                <field name="owner"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="address"/>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="email"/>
+                            </group>
+                            <group>
+                                <field name="phone"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="mdm_store_tree_1" model="ir.ui.view">
+            <field name="name">store.mdm.tree</field>
+            <field name="model">mdm.store</field>
+            <field name="arch" type="xml">
+                <tree string="Store5">
+                    <field name="name"/>
+                    <field name="owner"/>
+                    <field name="address"/>
+                    <field name="phone"/>
+                    <field name="email"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="store_action" model="ir.actions.act_window">
+            <field name="name">Stores.action</field>
+            <field name="res_model">mdm.store</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem id="stores_menu" name="Stores" parent="motorcycle_dealer_manager_menu" action="store_action"/>
+    </data>
+</odoo>

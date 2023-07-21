@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <record id="export_receipt_id" model="ir.ui.view">
+            <field name="name">export_receipt_form</field>
+            <field name="model">mdm.export.receipt</field>
+            <field name="arch" type="xml">
+                <form string="Export_receipt">
+                    <sheet>
+                        <group>
+                            <field name="export_invoice_id"/>
+                            <field name="time"/>
+                            <field name="money"/>
+                            <field name="note"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="export_receipts_id" model="ir.ui.view">
+            <field name="name">export_receipt_tree</field>
+            <field name="model">mdm.export.receipt</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom" string="Export_receipts">
+                    <field name="export_invoice_id" readonly="True"/>
+                    <field name="time" invisible="1"/>
+                    <field name="money"/>
+                    <field name="note"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="export_receipts_action" model="ir.actions.act_window">
+            <field name="name">Export_receipts.action</field>
+            <field name="res_model">mdm.export.receipt</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+    </data>
+</odoo>
