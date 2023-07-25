@@ -5,29 +5,29 @@
             <field name="name">supplier.mdm.form</field>
             <field name="model">mdm.supplier</field>
             <field name="arch" type="xml">
-                <form string="Supplier5">
+                <form string="Nhà cung cấp">
                     <sheet>
                         <group>
                             <group>
-                                <field name="name"/>
+                                <field name="name" placeholder="Nhập vào tên nhà cung cấp"/>
                             </group>
                             <group>
-                                <field name="phone"/>
+                                <field name="phone" placeholder="Nhập vào số điện thoại"/>
                             </group>
                         </group>
                         <group>
-                            <field name="address"/>
+                            <field name="address" placeholder="Nhập vào địa chỉ"/>
                         </group>
                         <group>
                             <group>
-                                <field name="email"/>
+                                <field name="email" placeholder="Nhập vào email"/>
                             </group>
                             <group>
                                 <group>
-                                    <field name="transport_price"/>
+                                    <field name="transport_price" placeholder="Nhập vào phí vận chuyển"/>
                                 </group>
                                 <group>
-                                    <field name="delivery_day"/>
+                                    <field name="delivery_day" placeholder="Nhập vào thời gian giao hàng"/>
                                 </group>
                             </group>
                         </group>
@@ -40,7 +40,7 @@
             <field name="name">supplier.mdm.tree</field>
             <field name="model">mdm.supplier</field>
             <field name="arch" type="xml">
-                <tree string="Supplier5">
+                <tree string="Danh sách nhà cung cấp">
                     <field name="name"/>
                     <field name="address"/>
                     <field name="phone"/>
@@ -58,7 +58,7 @@
             <field name="view_mode">tree,form</field>
         </record>
 
-        <menuitem id="suppliers_menu" name="Suppliers" parent="motorcycle_dealer_manager_menu"
+        <menuitem id="suppliers_menu" name="Quản lý nhà cung cấp" parent="configure_menu"
                   action="supplier_action"/>
 
     </data>

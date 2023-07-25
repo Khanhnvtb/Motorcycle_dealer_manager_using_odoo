@@ -5,36 +5,36 @@
             <field name="name">user_form</field>
             <field name="model">mdm.user</field>
             <field name="arch" type="xml">
-                <form string="User">
+                <form string="Nhân viên">
                     <sheet>
                         <group>
                             <group>
-                                <field name="name"/>
+                                <field name="name" placeholder="Nhập vào tên người dùng"/>
                             </group>
                             <group></group>
                             <group>
-                                <field name="dob"/>
+                                <field name="dob" placeholder="Chọn ngày sinh nhật"/>
                             </group>
                             <group>
                                 <group>
-                                    <field name="gender"/>
+                                    <field name="gender" placeholder="Chọn giới tính"/>
                                 </group>
                                 <group></group>
                             </group>
                             <group>
-                                <field name="address"/>
+                                <field name="address" placeholder="nhập vào địa chỉ"/>
                             </group>
                             <group>
                                 <group>
-                                    <field name="phone"/>
+                                    <field name="phone" placeholder="Nhập vào số điện thoại"/>
                                 </group>
                             </group>
                             <group>
-                                <field name="email"/>
+                                <field name="email" placeholder="Nhập vào email"/>
                             </group>
                             <group>
                                 <group>
-                                    <field name="salary"/>
+                                    <field name="salary" placeholder="Nhập vào lương cơ bản"/>
                                 </group>
                             </group>
                         </group>
@@ -47,7 +47,7 @@
             <field name="name">user_tree</field>
             <field name="model">mdm.user</field>
             <field name="arch" type="xml">
-                <tree string="Users">
+                <tree string="Danh sách nhân viên">
                     <field name="name"/>
                     <field name="dob"/>
                     <field name="gender"/>
@@ -65,7 +65,7 @@
             <field name="view_mode">tree,form</field>
         </record>
 
-        <menuitem id="users_menu_id" name="users_menu" parent="motorcycle_dealer_manager_menu" action="users_action"/>
+        <menuitem id="users_menu_id" name="Quản lý nhân viên" parent="configure_menu" action="users_action"/>
 
     </data>
 </odoo>

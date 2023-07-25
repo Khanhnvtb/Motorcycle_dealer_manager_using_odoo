@@ -18,17 +18,17 @@ def format_integer(number):
 class MdmUser(models.Model):
     _name = 'mdm.user'
 
-    name = fields.Char(string='User name', size=50, required=True)
-    dob = fields.Date(string='Date of birth', required=True)
-    gender = fields.Selection([('male', 'Male'), ('female', 'Female'), ], 'Gender', default='male')
-    address = fields.Char(string='User address', size=255, required=True)
-    phone = fields.Char(string='User phone', size=10, required=True)
-    email = fields.Char(sting='User email', size=50, required=True)
-    salary = fields.Integer(string='Salary', required=True, default=0)
-    invoice_ids = fields.One2many('mdm.import.invoice', 'user_id', string='Invoice ids')
-    import_receipt_ids = fields.One2many('mdm.import.receipt', 'user_id', string='Import receipt ids')
-    export_receipt_ids = fields.One2many('mdm.export.receipt', 'user_id', string='Export receipt ids')
-    expense_ids = fields.One2many('mdm.expense', 'user_id', string='Expense ids')
+    name = fields.Char(string='Tên người dùng', size=50, required=True)
+    dob = fields.Date(string='Sinh nhật', required=True)
+    gender = fields.Selection([('male', 'Nam'), ('female', 'Nữ'), ], 'Giới tính', default='male')
+    address = fields.Char(string='Địa chỉ', size=255, required=True)
+    phone = fields.Char(string='Số điện thoại', size=10, required=True)
+    email = fields.Char(sting='Email', size=50, required=True)
+    salary = fields.Integer(string='Lương cơ bản', required=True, default=0)
+    invoice_ids = fields.One2many('mdm.import.invoice', 'user_id', string='Danh sách hóa đơn')
+    import_receipt_ids = fields.One2many('mdm.import.receipt', 'user_id', string='Danh sách thanh toán nhập hàng')
+    export_receipt_ids = fields.One2many('mdm.export.receipt', 'user_id', string='Danh sách thanh toán xuất hàng')
+    expense_ids = fields.One2many('mdm.expense', 'user_id', string='Danh sách chi phí')
 
     @api.constrains('phone')
     def validate_phone(self):
@@ -50,18 +50,24 @@ class MdmUser(models.Model):
             if rec.salary < 0:
                 raise ValidationError('Lương không được nhỏ hơn 0')
 
+    @api.constrains('dob')
+    def validate_dob(self):
+        for rec in self:
+            if rec.dob >= date.today():
+                raise ValidationError('Ngày sinh phải nhỏ hơn ngày hôm nay')
+
 
 class MdmSupplier(models.Model):
     _name = 'mdm.supplier'
 
-    name = fields.Char(string='Supplier name', size=100, required=True)
-    address = fields.Char(string='Supplier address', size=100, required=True)
-    phone = fields.Char(string='Supplier phone', size=10, required=True)
-    email = fields.Char(string='Supplier email', size=50, required=True)
-    transport_price = fields.Integer(string='Transport price', required=True, default=0)
-    delivery_day = fields.Integer(string='Delivery day', required=True, default=100)
-    rating = fields.Float(string='Rating', required=True, default=0)
-    import_invoice_ids = fields.One2many('mdm.import.invoice', 'supplier_id', string='Import invoice ids')
+    name = fields.Char(string='Tên nhà cung cấp', size=100, required=True)
+    address = fields.Char(string='Địa chỉ', size=100, required=True)
+    phone = fields.Char(string='Số điện thoại', size=10, required=True)
+    email = fields.Char(string='Email', size=50, required=True)
+    transport_price = fields.Integer(string='Phí vận chuyển', required=True, default=0)
+    delivery_day = fields.Integer(string='Thời gian vận chuyển', required=True, default=100)
+    rating = fields.Float(string='Đánh giá', required=True, default=0)
+    import_invoice_ids = fields.One2many('mdm.import.invoice', 'supplier_id', string='Danh sách hóa đơn')
 
     @api.constrains('phone')
     def validate_phone(self):
@@ -87,14 +93,14 @@ class MdmSupplier(models.Model):
 class MdmImportInvoice(models.Model):
     _name = 'mdm.import.invoice'
 
-    time = fields.Datetime(string='Import time', default=datetime.now())
-    total = fields.Integer(string='Import total', size=None)
-    payment = fields.Integer(string='Import payment', size=None, required=True, default=0)
-    debt_term = fields.Date(string='Import debt term', required=True)
+    time = fields.Datetime(string='Thời gian nhập', default=datetime.now())
+    total = fields.Integer(string='Tổng tiền', size=None)
+    payment = fields.Integer(string='Tiền đã thanh toán', size=None, required=True, default=0)
+    debt_term = fields.Date(string='Ngày hết hạn', required=True)
     user_id = fields.Many2one('mdm.user')
     supplier_id = fields.Many2one('mdm.supplier', required=True)
-    import_invoice_ids = fields.One2many('mdm.import.motor', 'import_invoice_id', string='Import invoice ids')
-    import_receipt_ids = fields.One2many('mdm.import.receipt', 'import_invoice_id', string='Import receipt ids')
+    import_invoice_ids = fields.One2many('mdm.import.motor', 'import_invoice_id', string='Danh sách xe nhập')
+    import_receipt_ids = fields.One2many('mdm.import.receipt', 'import_invoice_id', string='Danh sách thanh toán nhập hàng')
 
     @api.model
     def create(self, vals):
@@ -105,6 +111,7 @@ class MdmImportInvoice(models.Model):
         for record in import_motors:
             motor = self.env['mdm.motor'].search([('id', '=', record.motor_id.id)])
             motor.quantity += record.quantity
+            record.sum_import_price = motor.import_price * record.quantity
 
         if import_invoice.payment > 0:
             self.env['mdm.import.receipt'].create({
@@ -160,14 +167,14 @@ class MdmImportInvoice(models.Model):
 class MdmMotor(models.Model):
     _name = 'mdm.motor'
 
-    name = fields.Char(string='Motor name', size=100, unique=True, required=True)
-    brand = fields.Char(string='Brand', size=100, required=True)
-    description = fields.Char(string='Description', size=1000, required=True)
-    quantity = fields.Integer(string='Quantity', required=True, default=0)
-    import_price = fields.Integer(string='Import price', required=True)
-    export_price = fields.Integer(string='Export price', required=True)
-    import_motor_ids = fields.One2many('mdm.import.motor', 'motor_id', string='Import motor ids')
-    export_motor_ids = fields.One2many('mdm.export.motor', 'motor_id', string='Export motor ids')
+    name = fields.Char(string='Tên xe', size=100, unique=True, required=True)
+    brand = fields.Char(string='Thương hiệu', size=100, required=True)
+    description = fields.Char(string='Mô tả', size=1000, required=True)
+    quantity = fields.Integer(string='Số lượng', required=True, default=0)
+    import_price = fields.Integer(string='Giá nhập', required=True)
+    export_price = fields.Integer(string='Giá bán', required=True)
+    import_motor_ids = fields.One2many('mdm.import.motor', 'motor_id', string='Danh sách xe nhập')
+    export_motor_ids = fields.One2many('mdm.export.motor', 'motor_id', string='Danh sách xe xuất')
 
     @api.constrains('quantity')
     def validate_quantity(self):
@@ -193,9 +200,9 @@ class MdmImportReceipt(models.Model):
 
     user_id = fields.Many2one('mdm.user')
     import_invoice_id = fields.Many2one('mdm.import.invoice', required=True)
-    time = fields.Datetime(string='Import receipt time', default=datetime.now())
-    money = fields.Integer(string='Import receipt money', size=None, required=True)
-    note = fields.Char(string='Import receipt note', size=100)
+    time = fields.Datetime(string='Thời gian', default=datetime.now())
+    money = fields.Integer(string='Số tiền thanh toán', size=None, required=True)
+    note = fields.Char(string='Ghi chú', size=100)
 
     @api.model
     def create(self, vals):
@@ -213,56 +220,58 @@ class MdmImportReceipt(models.Model):
                 raise ValidationError(
                     f'Bạn đã trả quá số tiền cho tổng hoá đơn, số tiền còn lại cần phải trả là {format_integer(rec.import_invoice_id.total - rec.import_invoice_id.payment)}')
 
-    class MdmImportMotor(models.Model):
-        _name = 'mdm.import.motor'
 
-        import_invoice_id = fields.Many2one('mdm.import.invoice', required=True)
-        motor_id = fields.Many2one('mdm.motor', required=True)
-        quantity = fields.Integer(string='Import quantity', required=True, default=1)
-        sum_import_price = fields.Integer(string='Sum import price')
+class MdmImportMotor(models.Model):
+    _name = 'mdm.import.motor'
 
-        @api.constrains('quantity')
-        def validate_quantity(self):
-            for rec in self:
-                if rec.quantity <= 0:
-                    raise ValidationError('Số lượng xe nhập phải lớn hơn 0')
+    import_invoice_id = fields.Many2one('mdm.import.invoice', required=True)
+    motor_id = fields.Many2one('mdm.motor', required=True, string='Xe máy')
+    quantity = fields.Integer(string='Số lượng xe nhập', required=True, default=1)
+    sum_import_price = fields.Integer(string='Thành tiền')
 
-    class MdmStore(models.Model):
-        _name = 'mdm.store'
+    @api.constrains('quantity')
+    def validate_quantity(self):
+        for rec in self:
+            if rec.quantity <= 0:
+                raise ValidationError('Số lượng xe nhập phải lớn hơn 0')
 
-        name = fields.Char(string='Store name', size=100, unique=True, required=True)
-        owner = fields.Char(string='Owner', size=50, required=True)
-        address = fields.Char(string='Store address', size=100, required=True)
-        phone = fields.Char(string='Store phone', size=10, required=True)
-        email = fields.Char(string='Store email', size=50, required=True)
-        export_invoice_ids = fields.One2many('mdm.export.invoice', 'store_id', string='Export invoice ids')
 
-        @api.constrains('phone')
-        def validate_phone(self):
-            for rec in self:
-                if len(rec.phone) != 10 or rec.phone[0] != '0' or rec.phone[1:].isdigit() == False:
-                    raise ValidationError('Số điện thoại không đúng định dạng')
+class MdmStore(models.Model):
+    _name = 'mdm.store'
 
-        @api.constrains('email')
-        def validate_email(self):
-            for rec in self:
-                if re.match(r"[^@]+@[^@]+\.[^@]+", rec.email):
-                    pass
-                else:
-                    raise ValidationError('Email không đúng định dạng')
+    name = fields.Char(string='Tên cửa hàng', size=100, unique=True, required=True)
+    owner = fields.Char(string='Tên chủ sở hữu', size=50, required=True)
+    address = fields.Char(string='Địa chỉ cửa hàng', size=100, required=True)
+    phone = fields.Char(string='Số điện thoại', size=10, required=True)
+    email = fields.Char(string='Email', size=50, required=True)
+    export_invoice_ids = fields.One2many('mdm.export.invoice', 'store_id', string='Danh sách xe xuất')
+
+    @api.constrains('phone')
+    def validate_phone(self):
+        for rec in self:
+            if len(rec.phone) != 10 or rec.phone[0] != '0' or rec.phone[1:].isdigit() == False:
+                raise ValidationError('Số điện thoại không đúng định dạng')
+
+    @api.constrains('email')
+    def validate_email(self):
+        for rec in self:
+            if re.match(r"[^@]+@[^@]+\.[^@]+", rec.email):
+                pass
+            else:
+                raise ValidationError('Email không đúng định dạng')
 
 
 class MdmExportInvoice(models.Model):
     _name = 'mdm.export.invoice'
 
-    time = fields.Datetime(string='Export time', default=datetime.now())
-    total = fields.Integer(string='Export total', size=None)
-    payment = fields.Integer(string='Export payment', size=None, required=True)
-    debt_term = fields.Date(string='Export debt term', required=True)
+    time = fields.Datetime(string='Thời gian', default=datetime.now())
+    total = fields.Integer(string='Tổng tiền', size=None)
+    payment = fields.Integer(string='Tiền đã thanh toán', size=None, required=True)
+    debt_term = fields.Date(string='Ngày hết hạn', required=True)
     user_id = fields.Many2one('mdm.user')
     store_id = fields.Many2one('mdm.store', required=True)
-    export_invoice_ids = fields.One2many('mdm.export.motor', 'export_invoice_id', string='Export invoice ids')
-    export_receipt_ids = fields.One2many('mdm.export.receipt', 'export_invoice_id', string='Export receipt ids')
+    export_invoice_ids = fields.One2many('mdm.export.motor', 'export_invoice_id', string='Danh sách xe xuất')
+    export_receipt_ids = fields.One2many('mdm.export.receipt', 'export_invoice_id', string='Danh sách thanh toán xuất hàng')
 
     @api.model
     def create(self, vals):
@@ -273,7 +282,8 @@ class MdmExportInvoice(models.Model):
         for record in export_motors:
             motor = self.env['mdm.motor'].search([('id', '=', record.motor_id.id)])
             motor.quantity -= record.quantity
-
+            record.sum_export_price = motor.export_price * record.quantity
+            
         if export_invoice.payment > 0:
             self.env['mdm.export.receipt'].create({
                 'export_invoice_id': export_invoice.id,
@@ -329,9 +339,9 @@ class MdmExportMotor(models.Model):
     _name = 'mdm.export.motor'
 
     export_invoice_id = fields.Many2one('mdm.export.invoice', required=True)
-    motor_id = fields.Many2one('mdm.motor', required=True)
-    quantity = fields.Integer(string='Export quantity', required=True, default=1)
-    sum_export_price = fields.Integer(string="Sum export price")
+    motor_id = fields.Many2one('mdm.motor', required=True, string="Xe máy")
+    quantity = fields.Integer(string='Số lượng xe xuất', required=True, default=1)
+    sum_export_price = fields.Integer(string="Thành tiền")
 
     @api.constrains('quantity')
     def validate_quantity(self):
@@ -348,9 +358,9 @@ class MdmExportReceipt(models.Model):
 
     user_id = fields.Many2one('mdm.user')
     export_invoice_id = fields.Many2one('mdm.export.invoice', required=True)
-    time = fields.Datetime(string='Export receipt time', default=datetime.now())
-    money = fields.Integer(string='Export receipt money', size=None, required=True)
-    note = fields.Char(string='Export receipt note', size=100)
+    time = fields.Datetime(string='Thời gian', default=datetime.now())
+    money = fields.Integer(string='Số tiền thanh toán', size=None, required=True)
+    note = fields.Char(string='Ghi chú', size=100)
 
     @api.model
     def create(self, vals):
@@ -368,17 +378,18 @@ class MdmExportReceipt(models.Model):
                 raise ValidationError(
                     f'Bạn đã trả quá số tiền cho tổng hoá đơn, số tiền còn lại cần phải trả là {format_integer(rec.export_invoice_id.total - rec.export_invoice_id.payment)}', )
 
-    class MdmExpense(models.Model):
-        _name = 'mdm.expense'
 
-        user_id = fields.Many2one('mdm.user')
-        time = fields.Datetime(string='Expense time', default=datetime.now())
-        money = fields.Integer(string='Expense money', size=None, required=True)
-        type = fields.Char(string='Type', size=100, required=True)
-        note = fields.Char(string='Expense note', size=100)
+class MdmExpense(models.Model):
+    _name = 'mdm.expense'
 
-        @api.constrains('money')
-        def validate_import_price(self):
-            for rec in self:
-                if rec.money < 0:
-                    raise ValidationError('Số tiền không được nhỏ hơn 0')
+    user_id = fields.Many2one('mdm.user')
+    time = fields.Datetime(string='Thời gian', default=datetime.now())
+    money = fields.Integer(string='Thành tiền', size=None, required=True)
+    type = fields.Char(string='Loại chi phí', size=100, required=True)
+    note = fields.Char(string='Ghi chú', size=100)
+
+    @api.constrains('money')
+    def validate_import_price(self):
+        for rec in self:
+            if rec.money < 0:
+                raise ValidationError('Số tiền không được nhỏ hơn 0')

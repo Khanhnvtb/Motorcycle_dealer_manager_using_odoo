@@ -5,27 +5,35 @@
             <field name="name">export_invoice_form</field>
             <field name="model">mdm.export.invoice</field>
             <field name="arch" type="xml">
-                <form string="Export invoice">
-                    <button name="add_export_receipt" type="object" string="Export receipts" class="btn-primary"/>
+                <form string="Hóa đơn xuất hàng">
+                    <button name="add_export_receipt" type="object" string="Thanh toán" class="btn-primary"/>
                     <group>
                         <group>
-                            <field name="store_id" type="many2one" relation="mdm.store" string="Store"
+                            <field name="store_id" type="many2one" relation="mdm.store" string="Cửa hàng"
                                    required="True">
                             </field>
                         </group>
+                        <group>
+                            <group>
+                                <field name="debt_term" placeholder="Chọn ngày hết hạn"/>
+                            </group>
+                            <group>
+                                <field name="payment" placeholder="Nhập vào tiền thanh toán"/>
+                            </group>
+                        </group>
                     </group>
                     <notebook>
-                        <page string="Export motor" name="export_motor">
+                        <page string="Danh sách xe xuất" name="export_motor">
                             <field name="export_invoice_ids">
-                                <tree editable="bottom" string="Export">
-                                    <field name="motor_id"/>
-                                    <field name="quantity"/>
-                                    <field name="sum_export_price" sum="total" readonly="True"/>
+                                <tree editable="bottom">
+                                    <field name="motor_id" width="50%"/>
+                                    <field name="quantity" width="25%"/>
+                                    <field name="sum_export_price" sum="Tổng tiền" readonly="True" width="25%"/>
                                 </tree>
-                                <form string="export form">
+                                <form string="Xuất xe">
                                     <group>
-                                        <field name="motor_id"/>
-                                        <field name="quantity"/>
+                                        <field name="motor_id" placeholder="Chọn một xe"/>
+                                        <field name="quantity" placeholder="Nhập vào số lượng xuất"/>
                                         <field name="sum_export_price"/>
                                     </group>
                                 </form>
@@ -34,14 +42,6 @@
                     </notebook>
                     <group>
                         <field name="total" invisible="1"/>
-                        <group>
-                            <group>
-                                <field name="debt_term"/>
-                            </group>
-                            <group>
-                                <field name="payment"/>
-                            </group>
-                        </group>
                     </group>
                 </form>
             </field>
@@ -51,15 +51,15 @@
             <field name="name">export_invoices_tree</field>
             <field name="model">mdm.export.invoice</field>
             <field name="arch" type="xml">
-                <tree string="Export invoices">
+                <tree string="Danh sách hóa đơn xuất">
                     <field name="time"/>
                     <field name="total"/>
                     <field name="payment"/>
                     <field name="debt_term"/>
-                    <field name="user_id" string="User" widget="selection"
-                           options="{'model': 'mdm.user', 'string': 'Name', 'on_change': 'on_change_user_id()'}"/>
-                    <field name="store_id" string="Store" widget="selection"
-                           options="{'model': 'mdm.store', 'string': 'Name', 'on_change': 'on_change_store_id()'}"/>
+                    <field name="user_id" string="Nhân viên" widget="selection"
+                           options="{'model': 'mdm.user', 'string': 'name', 'on_change': 'on_change_user_id()'}"/>
+                    <field name="store_id" string="Cửa hàng" widget="selection"
+                           options="{'model': 'mdm.store', 'string': 'name', 'on_change': 'on_change_store_id()'}"/>
                 </tree>
             </field>
         </record>
@@ -70,7 +70,7 @@
             <field name="view_mode">tree,form</field>
         </record>
 
-        <menuitem id="export_invoices_menu_id" name="export_invoices_menu" parent="motorcycle_dealer_manager_menu"
+        <menuitem id="export_invoices_menu_id" name="Xuất hàng" parent="Warehouse_manager_menu"
                   action="export_invoices_action"/>
 
     </data>

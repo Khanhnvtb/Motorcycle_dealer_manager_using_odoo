@@ -5,31 +5,31 @@
             <field name="name">motor_form</field>
             <field name="model">mdm.motor</field>
             <field name="arch" type="xml">
-                <form string="Motor">
+                <form string="Xe máy">
                     <sheet>
                         <group>
                             <group>
-                                <field name="name"/>
+                                <field name="name" placeholder="Nhập vào tên xe"/>
                             </group>
                             <group>
                                 <group>
-                                    <field name="quantity"/>
+                                    <field name="quantity" placeholder="Nhập vào số lượng xe"/>
                                 </group>
                             </group>
                             <group>
-                                <field name="brand"/>
+                                <field name="brand" placeholder="Nhập vào thương hiệu xe"/>
                             </group>
                             <group>
                                 <group>
-                                    <field name="import_price"/>
+                                    <field name="import_price" placeholder="Nhập vào giá nhập xe"/>
                                 </group>
                             </group>
                             <group>
-                                <field name="description"/>
+                                <field name="description" placeholder="Nhập vào mô tả xe"/>
                             </group>
                             <group>
                                 <group>
-                                    <field name="export_price"/>
+                                    <field name="export_price" placeholder="Nhập vào giá bán xe"/>
                                 </group>
                             </group>
                         </group>
@@ -42,13 +42,13 @@
             <field name="name">motor_tree</field>
             <field name="model">mdm.motor</field>
             <field name="arch" type="xml">
-                <tree string="Motors">
-                    <field name="name"/>
-                    <field name="brand"/>
-                    <field name="description"/>
-                    <field name="quantity"/>
-                    <field name="import_price"/>
-                    <field name="export_price"/>
+                <tree string="Danh sách xe máy">
+                    <field name="name" colspan="12"/>
+                    <field name="brand" colspan="1"/>
+                    <field name="description" colspan="3"/>
+                    <field name="quantity" colspan="1"/>
+                    <field name="import_price" colspan="2"/>
+                    <field name="export_price" colspan="2"/>
                 </tree>
             </field>
         </record>
@@ -58,8 +58,6 @@
             <field name="res_model">mdm.motor</field>
             <field name="view_mode">tree,form</field>
         </record>
-
-        <menuitem id="motors_menu_id" name="motors_menu" parent="motorcycle_dealer_manager_menu" action="motors_action"/>
-
+        <menuitem id="motors_menu_id" name="Quản lý xe" parent="configure_menu" action="motors_action"/>
     </data>
 </odoo>

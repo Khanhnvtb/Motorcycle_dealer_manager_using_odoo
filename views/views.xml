@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <menuitem id="motorcycle_dealer_manager_menu" name="Motorcycle Dealer Manager" sequence="10"/>
+    <menuitem id="motorcycle_dealer_manager_menu" web_icon="motorcycle_dealer_manager,static/description/icon.png"
+              name="Quản lý đại lý xe máy" sequence="10"/>
+    <menuitem id="configure_menu" name="Cấu hình" parent="motorcycle_dealer_manager_menu"/>
+    <menuitem id="Warehouse_manager_menu" name="Quản lý kho" parent="motorcycle_dealer_manager_menu"/>
 </odoo>

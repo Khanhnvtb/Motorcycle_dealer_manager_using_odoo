@@ -5,25 +5,25 @@
             <field name="name">store.mdm.form</field>
             <field name="model">mdm.store</field>
             <field name="arch" type="xml">
-                <form string="Store5">
+                <form string="Cửa hàng">
                     <sheet>
                         <group>
                             <group>
-                                <field name="name"/>
+                                <field name="name" palceholder="Nhập vào tên cửa hàng"/>
                             </group>
                             <group>
-                                <field name="owner"/>
+                                <field name="owner" palceholder="Nhập vào tên chủ sở hữu"/>
                             </group>
                         </group>
                         <group>
-                            <field name="address"/>
+                            <field name="address" palceholder="Nhập vào địa chỉ"/>
                         </group>
                         <group>
                             <group>
-                                <field name="email"/>
+                                <field name="email" palceholder="Nhập vào email"/>
                             </group>
                             <group>
-                                <field name="phone"/>
+                                <field name="phone" palceholder="Nhập vào số điện thoại"/>
                             </group>
                         </group>
                     </sheet>
@@ -35,7 +35,7 @@
             <field name="name">store.mdm.tree</field>
             <field name="model">mdm.store</field>
             <field name="arch" type="xml">
-                <tree string="Store5">
+                <tree string="Danh sách cửa hàng">
                     <field name="name"/>
                     <field name="owner"/>
                     <field name="address"/>
@@ -50,6 +50,6 @@
             <field name="res_model">mdm.store</field>
             <field name="view_mode">tree,form</field>
         </record>
-        <menuitem id="stores_menu" name="Stores" parent="motorcycle_dealer_manager_menu" action="store_action"/>
+        <menuitem id="stores_menu" name="Quản lý cửa hàng" parent="configure_menu" action="store_action"/>
     </data>
 </odoo>

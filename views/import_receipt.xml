@@ -5,13 +5,13 @@
             <field name="name">import_receipt_form</field>
             <field name="model">mdm.import.receipt</field>
             <field name="arch" type="xml">
-                <form string="Import_receipt">
+                <form string="Thanh toán nhập xe">
                     <sheet>
                         <group>
-                            <field name="import_invoice_id"/>
+                            <field name="import_invoice_id" string="Id hóa đơn nhập"/>
                             <field name="time"/>
-                            <field name="money"/>
-                            <field name="note"/>
+                            <field name="money" placeholder="Nhập vào tiền thanh toán"/>
+                            <field name="note" placeholder="Nhập vào ghi chú(nếu có)"/>
                         </group>
                     </sheet>
                 </form>
@@ -22,7 +22,7 @@
             <field name="name">import_receipt_tree</field>
             <field name="model">mdm.import.receipt</field>
             <field name="arch" type="xml">
-                <tree editable="bottom" string="Import_receipts">
+                <tree editable="bottom" string="Danh sách thanh toán nhập xe">
                     <field name="import_invoice_id" readonly="True"/>
                     <field name="time" invisible="1"/>
                     <field name="money"/>

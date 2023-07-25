@@ -5,13 +5,13 @@
             <field name="name">export_receipt_form</field>
             <field name="model">mdm.export.receipt</field>
             <field name="arch" type="xml">
-                <form string="Export_receipt">
+                <form string="Thanh toán xuất hàng">
                     <sheet>
                         <group>
                             <field name="export_invoice_id"/>
                             <field name="time"/>
-                            <field name="money"/>
-                            <field name="note"/>
+                            <field name="money" placeholder="Nhập vào số tiền thanh toán"/>
+                            <field name="note" placeholder="Nhập vào ghi chú(nếu có)"/>
                         </group>
                     </sheet>
                 </form>
@@ -22,7 +22,7 @@
             <field name="name">export_receipt_tree</field>
             <field name="model">mdm.export.receipt</field>
             <field name="arch" type="xml">
-                <tree editable="bottom" string="Export_receipts">
+                <tree editable="bottom" string="Danh sách hóa đơn xuất hàng">
                     <field name="export_invoice_id" readonly="True"/>
                     <field name="time" invisible="1"/>
                     <field name="money"/>

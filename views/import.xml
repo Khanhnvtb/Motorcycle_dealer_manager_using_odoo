@@ -5,27 +5,35 @@
             <field name="name">import_invoice_form</field>
             <field name="model">mdm.import.invoice</field>
             <field name="arch" type="xml">
-                <form string="Import invoice">
-                    <button name="add_import_receipt" type="object" string="Import receipts" class="btn-primary"/>
+                <form string="Hóa đơn nhập hàng">
+                    <button name="add_import_receipt" type="object" string="Thanh toán" class="btn-primary"/>
                     <group>
                         <group>
-                            <field name="supplier_id" type="many2one" relation="mdm.supplier" string="Supplier"
+                            <field name="supplier_id" type="many2one" relation="mdm.supplier" string="Nhà cung cấp"
                                    required="True">
                             </field>
                         </group>
+                        <group>
+                            <group>
+                                <field name="debt_term" placeholder="Nhập vào ngày hết hạn"/>
+                            </group>
+                            <group>
+                                <field name="payment" placeholder="Nhập vào tiền thanh toán"/>
+                            </group>
+                        </group>
                     </group>
                     <notebook>
-                        <page string="Import motor" name="import_motor">
+                        <page string="Danh sách xe nhập" name="import_motor">
                             <field name="import_invoice_ids">
-                                <tree editable="bottom" string="Import">
-                                    <field name="motor_id"/>
-                                    <field name="quantity"/>
-                                    <field name="sum_import_price" sum="total" readonly="True"/>
+                                <tree editable="bottom">
+                                    <field name="motor_id" width="50%"/>
+                                    <field name="quantity" width="25%"/>
+                                    <field name="sum_import_price" sum="Tổng tiền" readonly="True" width="25%"/>
                                 </tree>
-                                <form string="import form">
+                                <form string="Nhập xe">
                                     <group>
-                                        <field name="motor_id"/>
-                                        <field name="quantity"/>
+                                        <field name="motor_id" placeholder="Chọn một xe"/>
+                                        <field name="quantity" placeholder="Nhập vào số lượng nhập"/>
                                         <field name="sum_import_price"/>
                                     </group>
                                 </form>
@@ -34,14 +42,6 @@
                     </notebook>
                     <group>
                         <field name="total" invisible="1"/>
-                        <group>
-                            <group>
-                                <field name="debt_term"/>
-                            </group>
-                            <group>
-                                <field name="payment"/>
-                            </group>
-                        </group>
                     </group>
                 </form>
             </field>
@@ -51,15 +51,15 @@
             <field name="name">import_invoices_tree</field>
             <field name="model">mdm.import.invoice</field>
             <field name="arch" type="xml">
-                <tree string="Import invoices">
+                <tree string="Danh sách hóa đơn nhập">
                     <field name="time"/>
                     <field name="total"/>
                     <field name="payment"/>
                     <field name="debt_term"/>
-                    <field name="user_id" string="User" widget="selection"
-                           options="{'model': 'mdm.user', 'string': 'Name', 'on_change': 'on_change_user_id()'}"/>
-                    <field name="supplier_id" string="Supplier" widget="selection"
-                           options="{'model': 'mdm.supplier', 'string': 'Name', 'on_change': 'on_change_supplier_id()'}"/>
+                    <field name="user_id" string="Nhân viên" widget="selection"
+                           options="{'model': 'mdm.user', 'string': 'name', 'on_change': 'on_change_user_id()'}"/>
+                    <field name="supplier_id" string="Nhà cung cấp" widget="selection"
+                           options="{'model': 'mdm.supplier', 'string': 'name', 'on_change': 'on_change_supplier_id()'}"/>
                 </tree>
             </field>
         </record>
@@ -70,7 +70,7 @@
             <field name="view_mode">tree,form</field>
         </record>
 
-        <menuitem id="import_invoices_menu_id" name="import_invoices_menu" parent="motorcycle_dealer_manager_menu"
+        <menuitem id="import_invoices_menu_id" name="Nhập hàng" parent="Warehouse_manager_menu"
                   action="import_invoices_action"/>
     </data>
 </odoo>

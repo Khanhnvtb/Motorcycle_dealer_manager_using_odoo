@@ -1,3 +1,11 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_motorcycle_dealer_manager_motorcycle_dealer_manager,motorcycle_dealer_manager.motorcycle_dealer_manager,model_motorcycle_dealer_manager_motorcycle_dealer_manager,base.group_user,1,0,0,0
-access_motorcycle_dealer_manager_motorcycle_dealer_manager,motorcycle_dealer_manager.motorcycle_dealer_manager,model_motorcycle_dealer_manager_motorcycle_dealer_manager,base.group_admin,1,1,1,1
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink mdm_supplier_access_rule,MdmSupplier Access Rule,model_mdm_supplier,base.group_user,1,1,1,1
+mdm_store_access_rule,MdmStore Access Rule,model_mdm_store,base.group_user,1,1,1,1
+mdm_motor_access_rule,MdmMotor Access Rule,model_mdm_motor,base.group_user,1,1,1,1
+mdm_import_invoice_access_rule,MdmImportInvoice Access Rule,model_mdm_import_invoice,base.group_user,1,0,1,0
+mdm_import_receipt_access_rule,MdmImportReceipt Access Rule,model_mdm_import_receipt,base.group_user,1,0,1,0
+mdm_import_motor_access_rule,MdmImportMotor Access Rule,model_mdm_import_motor,base.group_user,1,0,1,0
+mdm_export_motor_access_rule,MdmExportMotor Access Rule,model_mdm_export_motor,base.group_user,1,0,1,0
+mdm_export_invoice_access_rule,MdmExportInvoice Access Rule,model_mdm_export_invoice,base.group_user,1,0,1,0
+mdm_export_receipt_access_rule,MdmExportReceipt Access Rule,model_mdm_export_receipt,base.group_user,1,0,1,0
+mdm_expense_access_rule,MdmExpense Access Rule,model_mdm_expense,base.group_user,1,0,1,
